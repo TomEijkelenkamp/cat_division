@@ -35,6 +35,7 @@ qt_add_executable(CatMarkSubdiv WIN32 MACOSX_BUNDLE
     subdivision/subdivider.h
     util/util.h util/util.cpp
     resources.qrc
+    limitprojection/limitprojector.cpp limitprojection/limitprojector.h
 )
 target_link_libraries(CatMarkSubdiv PRIVATE
     Qt::Core

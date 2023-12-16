@@ -6,6 +6,7 @@
 
 #include "mesh/mesh.h"
 #include "subdivision/subdivider.h"
+#include "limitprojection/limitprojector.h"
 
 namespace Ui {
 class MainWindow;

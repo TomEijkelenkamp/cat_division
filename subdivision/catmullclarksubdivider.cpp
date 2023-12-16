@@ -24,7 +24,65 @@ Mesh CatmullClarkSubdivider::subdivide(Mesh &mesh) const {
   reserveSizes(mesh, newMesh);
   geometryRefinement(mesh, newMesh);
   topologyRefinement(mesh, newMesh);
+  limitProjection(newMesh);
   return newMesh;
+}
+
+void CatmullClarkSubdivider::limitProjection(Mesh &mesh) const {
+  Mesh controlMesh = mesh;
+  QVector<Vertex> &controlVertices = controlMesh.getVertices();
+  QVector<Vertex> &vertices = mesh.getVertices();
+  // Vertex Points
+  for (int v = 0; v < controlMesh.numVerts(); v++) {
+      QVector3D coords;
+      if (controlVertices[v].isBoundaryVertex()) {
+          vertices[v].coords = limitBoundaryVertex(vertices[v]);
+      } else {
+          vertices[v].coords = limitVertex(vertices[v]);
+      }
+  }
+}
+
+
+QVector3D CatmullClarkSubdivider::limitBoundaryVertex(const Vertex& vertex) const {
+  int n = vertex.valence;
+  QVector3D coords = (n-3)/(n+5) * vertex.coords;
+
+  return vertex.coords;
+}
+
+QVector3D CatmullClarkSubdivider::limitVertex(const Vertex& vertex) const {
+  int n = vertex.valence;
+
+  QVector3D coords = vertex.coords;
+
+  QVector3D v = vertex.coords;
+  QVector3D m;
+  QVector3D c;
+  QVector3D mc;
+  int counter;
+
+  HalfEdge *tmpEdge;
+
+  HalfEdge *edge = vertex.out;
+  for (int i=0; i<n; i++) {
+      if (edge->face == nullptr) continue;
+
+      m = (edge->origin->coords + edge->next->origin->coords)/2;
+
+      counter = 0;
+      tmpEdge = edge;
+      do {
+          c += tmpEdge->origin->coords;
+          tmpEdge = tmpEdge->next->twin;
+          counter++;
+      } while (tmpEdge != edge);
+      c /= counter;
+
+      mc += (m + c);
+  }
+
+  return (n-3)/(n+5) * v + 4/n*(n+5) * mc;
 }
 
 /**
