@@ -234,6 +234,32 @@ QGroupBox::title {
         </item>
        </layout>
       </widget>
+      <widget class="QGroupBox" name="LimitProjectionGroupBox">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>330</y>
+         <width>201</width>
+         <height>71</height>
+        </rect>
+       </property>
+       <property name="title">
+        <string>Limit Projection</string>
+       </property>
+       <widget class="QCheckBox" name="LimitProjectionCheckBox">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>30</y>
+          <width>76</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Enabled</string>
+        </property>
+       </widget>
+      </widget>
      </widget>
     </item>
     <item>

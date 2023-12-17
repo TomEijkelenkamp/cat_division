@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget* parent)
   ui->MeshGroupBox->setEnabled(ui->MainDisplay->settings.modelLoaded);
   ui->tessSettingsGroupBox->setEnabled(
       ui->MainDisplay->settings.tesselationMode);
+  ui->LimitProjectionGroupBox->setEnabled(ui->MainDisplay->settings.modelLoaded);
 }
 
 /**
@@ -70,8 +71,13 @@ void MainWindow::on_SubdivSteps_valueChanged(int value) {
   for (int k = meshes.size() - 1; k < value; k++) {
     meshes.append(subdivider->subdivide(meshes[k]));
   }
-  mesh = limitprojector->limitProjection(meshes[value]);
-  ui->MainDisplay->updateBuffers(mesh);
+  if (ui->MainDisplay->settings.limitProjection) {
+      mesh = limitprojector->limitProjection(meshes[value]);
+      ui->MainDisplay->updateBuffers(mesh);
+  } else {
+      ui->MainDisplay->updateBuffers(meshes[value]);
+  }
+  ui->LimitProjectionGroupBox->setEnabled(value > 0);
   delete subdivider;
 }
 
@@ -88,4 +94,17 @@ void MainWindow::on_HideMeshCheckBox_toggled(bool checked) {
   ui->MainDisplay->settings.showCpuMesh = !checked;
   ui->MainDisplay->settings.uniformUpdateRequired = true;
   ui->MainDisplay->update();
+}
+
+void MainWindow::on_LimitProjectionCheckBox_toggled(bool checked) {
+    // Useful for clearly seeing only the patches rendered by the Tessellation
+    // shaders.
+    ui->MainDisplay->settings.limitProjection = checked;
+    if (checked) {
+        mesh = limitprojector->limitProjection(meshes[ui->SubdivSteps->value()]);
+        ui->MainDisplay->updateBuffers(mesh);
+    } else {
+        ui->MainDisplay->updateBuffers(meshes[ui->SubdivSteps->value()]);
+    }
+    ui->MainDisplay->update();
 }

@@ -14,6 +14,7 @@ typedef struct Settings {
   bool wireframeMode = true;
   bool tesselationMode = false;
   bool showCpuMesh = true;
+  bool limitProjection = false;
 
   float FoV = 80;
   float dispRatio = 16.0f / 9.0f;
@@ -28,3 +29,4 @@ typedef struct Settings {
 } Settings;
 
 #endif  // SETTINGS_H
+
