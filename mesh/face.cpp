@@ -53,6 +53,20 @@ QVector3D Face::computeNormal() const {
 }
 
 /**
+ * @brief Face::computeCenter Computes the center coordinates of this face.
+ * @return The center coordinates of this face.
+ */
+QVector3D Face::computeCenter() const {
+    QVector3D center = side->origin->coords;
+    HalfEdge *edge = side->next;
+    while (edge != side) {
+        center += edge->origin->coords;
+        edge = edge->next;
+    }
+    return center / valence;
+}
+
+/**
  * @brief Face::debugInfo Prints some debug info of this face.
  */
 void Face::debugInfo() const {

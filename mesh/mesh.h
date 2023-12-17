@@ -51,6 +51,7 @@ class Mesh {
   friend class MeshInitializer;
   friend class Subdivider;
   friend class CatmullClarkSubdivider;
+  friend class Limitprojector;
 };
 
 #endif  // MESH_H

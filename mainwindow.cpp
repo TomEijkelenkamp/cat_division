@@ -70,7 +70,8 @@ void MainWindow::on_SubdivSteps_valueChanged(int value) {
   for (int k = meshes.size() - 1; k < value; k++) {
     meshes.append(subdivider->subdivide(meshes[k]));
   }
-  ui->MainDisplay->updateBuffers(meshes[value]);
+  mesh = limitprojector->limitProjection(meshes[value]);
+  ui->MainDisplay->updateBuffers(mesh);
   delete subdivider;
 }
 

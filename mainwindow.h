@@ -35,7 +35,9 @@ class MainWindow : public QMainWindow {
 
   Ui::MainWindow *ui;
   Subdivider *subdivider;
+  Limitprojector *limitprojector;
   QVector<Mesh> meshes;
+  Mesh mesh;
 };
 
 #endif  // MAINWINDOW_H

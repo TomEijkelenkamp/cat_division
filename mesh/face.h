@@ -15,6 +15,7 @@ class Face {
   Face(HalfEdge* side, int valence, int index);
   void recalculateNormal();
   QVector3D computeNormal() const;
+  QVector3D computeCenter() const;
   void debugInfo() const;
 
   HalfEdge* side;
