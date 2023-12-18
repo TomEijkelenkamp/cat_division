@@ -16,6 +16,8 @@ class Face {
   void recalculateNormal();
   QVector3D computeNormal() const;
   QVector3D computeCenter() const;
+  bool isQuad() const;
+  bool isRegularQuad() const;
   void debugInfo() const;
 
   HalfEdge* side;

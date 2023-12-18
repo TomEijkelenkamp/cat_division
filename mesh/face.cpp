@@ -66,6 +66,30 @@ QVector3D Face::computeCenter() const {
     return center / valence;
 }
 
+bool Face::isQuad() const {
+    return valence == 4;
+}
+
+bool Face::isRegularQuad() const {
+    if (!isQuad()) return false;
+
+    HalfEdge *edge = side;
+    do {
+        if (edge->twin == nullptr || !edge->twin->face->isQuad()) {
+            return false;
+        }
+        if (edge->origin == nullptr || edge->origin->valence != 4) {
+            return false;
+        }
+        if (edge->twin->next->twin == nullptr || !edge->twin->next->twin->face->isQuad()) {
+            return false;
+        }
+        edge = edge->next;
+    } while (edge != side);
+
+    return true;
+}
+
 /**
  * @brief Face::debugInfo Prints some debug info of this face.
  */

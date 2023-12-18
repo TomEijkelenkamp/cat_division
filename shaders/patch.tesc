@@ -1,6 +1,6 @@
 #version 410
 // Tesselation Control Shader (TCS)
-layout(vertices = 4) out;
+layout(vertices = 16) out;
 
 layout(location = 0) in vec3[] vertcoords_vs;
 layout(location = 1) in vec3[] vertnormals_vs;

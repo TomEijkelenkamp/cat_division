@@ -87,11 +87,26 @@ void Mesh::extractAttributes() {
   for (int k = 0; k < faces.size(); k++) {
     Face* face = &faces[k];
     HalfEdge* currentEdge = face->side;
-    if (face->valence == 4) {
-      for (int m = 0; m < face->valence; m++) {
-        quadIndices.append(currentEdge->origin->index);
-        currentEdge = currentEdge->next;
-      }
+    if (face->isRegularQuad()) {
+        quadIndices.append(currentEdge->twin->next->twin->next->next->next->origin->index);
+        quadIndices.append(currentEdge->twin->next->twin->next->next->origin->index);
+        quadIndices.append(currentEdge->twin->next->twin->next->twin->prev->origin->index);
+        quadIndices.append(currentEdge->twin->next->twin->next->twin->prev->prev->twin->prev->origin->index);
+
+        quadIndices.append(currentEdge->twin->next->next->origin->index);
+        quadIndices.append(currentEdge->twin->next->origin->index);
+        quadIndices.append(currentEdge->prev->origin->index);
+        quadIndices.append(currentEdge->prev->prev->twin->prev->origin->index);
+
+        quadIndices.append(currentEdge->twin->next->next->next->origin->index);
+        quadIndices.append(currentEdge->twin->origin->index);
+        quadIndices.append(currentEdge->next->next->origin->index);
+        quadIndices.append(currentEdge->next->next->twin->next->next->origin->index);
+
+        quadIndices.append(currentEdge->twin->prev->twin->next->next->origin->index);
+        quadIndices.append(currentEdge->twin->prev->twin->next->next->next->origin->index);
+        quadIndices.append(currentEdge->twin->prev->twin->next->next->next->twin->prev->origin->index);
+        quadIndices.append(currentEdge->twin->prev->twin->next->next->next->twin->prev->prev->twin->prev->origin->index);
     }
   }
   quadIndices.squeeze();

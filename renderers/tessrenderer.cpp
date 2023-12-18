@@ -133,7 +133,7 @@ void TessellationRenderer::draw() {
 
   gl->glBindVertexArray(vao);
 
-  gl->glPatchParameteri(GL_PATCH_VERTICES, 4);
+  gl->glPatchParameteri(GL_PATCH_VERTICES, 16);
   gl->glDrawElements(GL_PATCHES, meshIBOSize, GL_UNSIGNED_INT, nullptr);
 
   gl->glBindVertexArray(0);
