@@ -102,10 +102,13 @@ void Mesh::extractAttributes() {
     Face* face = &faces[k];
     HalfEdge* currentEdge = face->side;
     if (face->isRegularQuad()) {
-        // 0    1    2    3
-        // 4    5    6    7
-        // 8    9    10   11
-        // 12   13   14   15
+        // 0  -  1  -  2  -  3
+        // |     |     |     |
+        // 4  -  5  -  6  -  7
+        // |     s^    |     |
+        // 8  -  9  -  10 -  11
+        // |     |     |     |
+        // 12 -  13 -  14 -  15
         regularQuadIndices.append(currentEdge->twin->prev->twin->next->next->origin->index);
         regularQuadIndices.append(currentEdge->twin->prev->twin->prev->origin->index);
         regularQuadIndices.append(currentEdge->next->twin->prev->origin->index);

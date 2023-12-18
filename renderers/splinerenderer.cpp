@@ -1,13 +1,13 @@
 #include "splinerenderer.h"
 
 /**
- * @brief TessellationRenderer::TessellationRenderer Creates a new tessellation
+ * @brief SplineRenderer::SplineRenderer Creates a new spline
  * renderer.
  */
 SplineRenderer::SplineRenderer() : meshIBOSize(0) {}
 
 /**
- * @brief TessellationRenderer::~TessellationRenderer Deconstructor.
+ * @brief SplineRenderer::~SplineRenderer Deconstructor.
  */
 SplineRenderer::~SplineRenderer() {
   gl->glDeleteVertexArrays(1, &vao);
@@ -18,15 +18,15 @@ SplineRenderer::~SplineRenderer() {
 }
 
 /**
- * @brief TessellationRenderer::initShaders Initializes the shaders used for the
- * Tessellation.
+ * @brief SplineRenderer::initShaders Initializes the shaders used for the
+ * rendering b-spline regular patches.
  */
 void SplineRenderer::initShaders() {
   splineShader = constructSplineShader("spline");
 }
 
 /**
- * @brief TessellationRenderer::constructTesselationShader Constructs a shader
+ * @brief SplineRenderer::constructSplineShader Constructs a shader
  * consisting of a vertex shader, tessellation control shader, tessellation
  * evaluation shader and a fragment shader. The shaders are assumed to follow
  * the naming convention: <name>.vert, <name.tesc>, <name.tese> and <name>.frag.
@@ -55,7 +55,7 @@ QOpenGLShaderProgram* SplineRenderer::constructSplineShader(
 }
 
 /**
- * @brief TessellationRenderer::initBuffers Initializes the buffers. Uses
+ * @brief SplineRenderer::initBuffers Initializes the buffers. Uses
  * indexed rendering. The coordinates and normals are passed into the shaders.
  */
 void SplineRenderer::initBuffers() {
@@ -79,7 +79,7 @@ void SplineRenderer::initBuffers() {
 }
 
 /**
- * @brief TessellationRenderer::updateBuffers Updates the buffers based on the
+ * @brief SplineRenderer::updateBuffers Updates the buffers based on the
  * provided mesh.
  * @param mesh The mesh to update the buffer contents with.
  */
@@ -105,7 +105,7 @@ void SplineRenderer::updateBuffers(Mesh& currentMesh) {
 }
 
 /**
- * @brief TessellationRenderer::updateUniforms Updates the uniforms in the
+ * @brief SplineRenderer::updateUniforms Updates the uniforms in the
  * shader.
  */
 void SplineRenderer::updateUniforms() {
@@ -122,7 +122,7 @@ void SplineRenderer::updateUniforms() {
 }
 
 /**
- * @brief MeshRenderer::draw Draw call.
+ * @brief SplineRenderer::draw Draw call.
  */
 void SplineRenderer::draw() {
   splineShader->bind();
