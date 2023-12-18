@@ -14,9 +14,6 @@ MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
   ui->MeshGroupBox->setEnabled(ui->MainDisplay->settings.modelLoaded);
-  ui->tessSettingsGroupBox->setEnabled(
-      ui->MainDisplay->settings.tesselationMode);
-  ui->LimitProjectionGroupBox->setEnabled(ui->MainDisplay->settings.modelLoaded);
 }
 
 /**
@@ -50,6 +47,7 @@ void MainWindow::importOBJ(const QString& fileName) {
 
   ui->MeshGroupBox->setEnabled(ui->MainDisplay->settings.modelLoaded);
   ui->SubdivSteps->setValue(0);
+  ui->MeshCheckBox->setChecked(true);
   ui->MainDisplay->update();
 }
 
@@ -77,28 +75,30 @@ void MainWindow::on_SubdivSteps_valueChanged(int value) {
   } else {
       ui->MainDisplay->updateBuffers(meshes[value]);
   }
-  ui->LimitProjectionGroupBox->setEnabled(value > 0);
   delete subdivider;
 }
 
 void MainWindow::on_TessellationCheckBox_toggled(bool checked) {
   ui->MainDisplay->settings.tesselationMode = checked;
-  ui->tessSettingsGroupBox->setEnabled(checked);
   ui->MainDisplay->settings.uniformUpdateRequired = true;
   ui->MainDisplay->update();
 }
 
-void MainWindow::on_HideMeshCheckBox_toggled(bool checked) {
+void MainWindow::on_MeshCheckBox_toggled(bool checked) {
   // Useful for clearly seeing only the patches rendered by the Tessellation
   // shaders.
-  ui->MainDisplay->settings.showCpuMesh = !checked;
+  ui->MainDisplay->settings.showCpuMesh = checked;
   ui->MainDisplay->settings.uniformUpdateRequired = true;
   ui->MainDisplay->update();
+}
+
+void MainWindow::on_RegularPatchSplineCheckBox_toggled(bool checked) {
+    ui->MainDisplay->settings.splineMode = checked;
+    ui->MainDisplay->settings.uniformUpdateRequired = true;
+    ui->MainDisplay->update();
 }
 
 void MainWindow::on_LimitProjectionCheckBox_toggled(bool checked) {
-    // Useful for clearly seeing only the patches rendered by the Tessellation
-    // shaders.
     ui->MainDisplay->settings.limitProjection = checked;
     if (checked) {
         mesh = limitprojector->limitProjection(meshes[ui->SubdivSteps->value()]);

@@ -57,6 +57,7 @@ void MainView::initializeGL() {
   // initialize renderers here with the current context
   meshRenderer.init(functions, &settings);
   tessellationRenderer.init(functions, &settings);
+  splineRenderer.init(functions, &settings);
 
   updateMatrices();
 }
@@ -102,6 +103,7 @@ void MainView::updateBuffers(Mesh& mesh) {
   mesh.extractAttributes();
   meshRenderer.updateBuffers(mesh);
   tessellationRenderer.updateBuffers(mesh);
+  splineRenderer.updateBuffers(mesh);
   update();
 }
 
@@ -124,6 +126,9 @@ void MainView::paintGL() {
     }
     if (settings.tesselationMode) {
       tessellationRenderer.draw();
+    }
+    if (settings.splineMode) {
+        splineRenderer.draw();
     }
 
     if (settings.uniformUpdateRequired) {

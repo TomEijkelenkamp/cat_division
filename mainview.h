@@ -10,6 +10,7 @@
 #include "mesh/mesh.h"
 #include "renderers/meshrenderer.h"
 #include "renderers/tessrenderer.h"
+#include "renderers/splinerenderer.h"
 
 /**
  * @brief The MainView class represents the main view of the UI. It handles and
@@ -49,6 +50,7 @@ class MainView : public QOpenGLWidget, protected QOpenGLFunctions_4_1_Core {
 
   MeshRenderer meshRenderer;
   TessellationRenderer tessellationRenderer;
+  SplineRenderer splineRenderer;
 
   Settings settings;
 

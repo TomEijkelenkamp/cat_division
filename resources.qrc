@@ -7,6 +7,10 @@
         <file>shaders/patch.vert</file>
         <file>shaders/patch.frag</file>
         <file>shaders/shading.glsl</file>
+        <file>shaders/spline.vert</file>
+        <file>shaders/spline.tese</file>
+        <file>shaders/spline.frag</file>
+        <file>shaders/spline.tesc</file>
     </qresource>
     <qresource prefix="/models">
         <file alias="Suzanne.obj">models/SuzanneQuad.obj</file>

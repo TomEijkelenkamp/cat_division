@@ -27,9 +27,9 @@ class MainWindow : public QMainWindow {
   void on_MeshPresetComboBox_currentTextChanged(const QString &meshName);
   void on_SubdivSteps_valueChanged(int subdivLevel);
   void on_TessellationCheckBox_toggled(bool checked);
+  void on_RegularPatchSplineCheckBox_toggled(bool checked);
   void on_LimitProjectionCheckBox_toggled(bool checked);
-
-  void on_HideMeshCheckBox_toggled(bool checked);
+  void on_MeshCheckBox_toggled(bool checked);
 
  private:
   void importOBJ(const QString &fileName);

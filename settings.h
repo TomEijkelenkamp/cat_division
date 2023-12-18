@@ -15,6 +15,7 @@ typedef struct Settings {
   bool tesselationMode = false;
   bool showCpuMesh = true;
   bool limitProjection = false;
+  bool splineMode = false;
 
   float FoV = 80;
   float dispRatio = 16.0f / 9.0f;

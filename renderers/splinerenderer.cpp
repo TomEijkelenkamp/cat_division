@@ -1,15 +1,15 @@
-#include "tessrenderer.h"
+#include "splinerenderer.h"
 
 /**
  * @brief TessellationRenderer::TessellationRenderer Creates a new tessellation
  * renderer.
  */
-TessellationRenderer::TessellationRenderer() : meshIBOSize(0) {}
+SplineRenderer::SplineRenderer() : meshIBOSize(0) {}
 
 /**
  * @brief TessellationRenderer::~TessellationRenderer Deconstructor.
  */
-TessellationRenderer::~TessellationRenderer() {
+SplineRenderer::~SplineRenderer() {
   gl->glDeleteVertexArrays(1, &vao);
 
   gl->glDeleteBuffers(1, &meshCoordsBO);
@@ -21,8 +21,8 @@ TessellationRenderer::~TessellationRenderer() {
  * @brief TessellationRenderer::initShaders Initializes the shaders used for the
  * Tessellation.
  */
-void TessellationRenderer::initShaders() {
-  tessellationShader = constructTesselationShader("patch");
+void SplineRenderer::initShaders() {
+  splineShader = constructSplineShader("spline");
 }
 
 /**
@@ -34,7 +34,7 @@ void TessellationRenderer::initShaders() {
  * @param name Name of the shader.
  * @return The constructed shader.
  */
-QOpenGLShaderProgram* TessellationRenderer::constructTesselationShader(
+QOpenGLShaderProgram* SplineRenderer::constructSplineShader(
     const QString& name) const {
   QString pathVert = ":/shaders/" + name + ".vert";
   QString pathTesC = ":/shaders/" + name + ".tesc";
@@ -58,7 +58,7 @@ QOpenGLShaderProgram* TessellationRenderer::constructTesselationShader(
  * @brief TessellationRenderer::initBuffers Initializes the buffers. Uses
  * indexed rendering. The coordinates and normals are passed into the shaders.
  */
-void TessellationRenderer::initBuffers() {
+void SplineRenderer::initBuffers() {
   gl->glGenVertexArrays(1, &vao);
   gl->glBindVertexArray(vao);
 
@@ -83,10 +83,10 @@ void TessellationRenderer::initBuffers() {
  * provided mesh.
  * @param mesh The mesh to update the buffer contents with.
  */
-void TessellationRenderer::updateBuffers(Mesh& currentMesh) {
+void SplineRenderer::updateBuffers(Mesh& currentMesh) {
   QVector<QVector3D>& vertexCoords = currentMesh.getVertexCoords();
   QVector<QVector3D>& vertexNormals = currentMesh.getVertexNorms();
-  QVector<unsigned int>& meshIndices = currentMesh.getQuadIndices();
+  QVector<unsigned int>& meshIndices = currentMesh.getRegularQuadIndices();
 
   gl->glBindBuffer(GL_ARRAY_BUFFER, meshCoordsBO);
   gl->glBufferData(GL_ARRAY_BUFFER, sizeof(QVector3D) * vertexCoords.size(),
@@ -108,10 +108,10 @@ void TessellationRenderer::updateBuffers(Mesh& currentMesh) {
  * @brief TessellationRenderer::updateUniforms Updates the uniforms in the
  * shader.
  */
-void TessellationRenderer::updateUniforms() {
-  uniModelViewMatrix = tessellationShader->uniformLocation("modelviewmatrix");
-  uniProjectionMatrix = tessellationShader->uniformLocation("projectionmatrix");
-  uniNormalMatrix = tessellationShader->uniformLocation("normalmatrix");
+void SplineRenderer::updateUniforms() {
+  uniModelViewMatrix = splineShader->uniformLocation("modelviewmatrix");
+  uniProjectionMatrix = splineShader->uniformLocation("projectionmatrix");
+  uniNormalMatrix = splineShader->uniformLocation("normalmatrix");
 
   gl->glUniformMatrix4fv(uniModelViewMatrix, 1, false,
                          settings->modelViewMatrix.data());
@@ -124,8 +124,8 @@ void TessellationRenderer::updateUniforms() {
 /**
  * @brief MeshRenderer::draw Draw call.
  */
-void TessellationRenderer::draw() {
-  tessellationShader->bind();
+void SplineRenderer::draw() {
+  splineShader->bind();
 
   if (settings->uniformUpdateRequired) {
     updateUniforms();
@@ -133,10 +133,10 @@ void TessellationRenderer::draw() {
 
   gl->glBindVertexArray(vao);
 
-  gl->glPatchParameteri(GL_PATCH_VERTICES, 4);
+  gl->glPatchParameteri(GL_PATCH_VERTICES, 16);
   gl->glDrawElements(GL_PATCHES, meshIBOSize, GL_UNSIGNED_INT, nullptr);
 
   gl->glBindVertexArray(0);
 
-  tessellationShader->release();
+  splineShader->release();
 }

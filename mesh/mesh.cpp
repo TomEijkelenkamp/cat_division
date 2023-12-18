@@ -85,31 +85,49 @@ void Mesh::extractAttributes() {
   quadIndices.clear();
   quadIndices.reserve(halfEdges.size() + faces.size());
   for (int k = 0; k < faces.size(); k++) {
+      Face* face = &faces[k];
+      HalfEdge* currentEdge = face->side;
+      if (face->valence == 4) {
+          for (int m = 0; m < face->valence; m++) {
+              quadIndices.append(currentEdge->origin->index);
+              currentEdge = currentEdge->next;
+          }
+      }
+  }
+  quadIndices.squeeze();
+
+  regularQuadIndices.clear();
+  regularQuadIndices.reserve(halfEdges.size() + faces.size());
+  for (int k = 0; k < faces.size(); k++) {
     Face* face = &faces[k];
     HalfEdge* currentEdge = face->side;
     if (face->isRegularQuad()) {
-        quadIndices.append(currentEdge->twin->next->twin->next->next->next->origin->index);
-        quadIndices.append(currentEdge->twin->next->twin->next->next->origin->index);
-        quadIndices.append(currentEdge->twin->next->twin->next->twin->prev->origin->index);
-        quadIndices.append(currentEdge->twin->next->twin->next->twin->prev->prev->twin->prev->origin->index);
+        // 0    1    2    3
+        // 4    5    6    7
+        // 8    9    10   11
+        // 12   13   14   15
+        regularQuadIndices.append(currentEdge->twin->prev->twin->next->next->origin->index);
+        regularQuadIndices.append(currentEdge->twin->prev->twin->prev->origin->index);
+        regularQuadIndices.append(currentEdge->next->twin->prev->origin->index);
+        regularQuadIndices.append(currentEdge->next->twin->prev->twin->next->next->origin->index);
 
-        quadIndices.append(currentEdge->twin->next->next->origin->index);
-        quadIndices.append(currentEdge->twin->next->origin->index);
-        quadIndices.append(currentEdge->prev->origin->index);
-        quadIndices.append(currentEdge->prev->prev->twin->prev->origin->index);
+        regularQuadIndices.append(currentEdge->twin->prev->origin->index);
+        regularQuadIndices.append(currentEdge->next->origin->index);
+        regularQuadIndices.append(currentEdge->next->next->origin->index);
+        regularQuadIndices.append(currentEdge->next->next->twin->next->next->origin->index);
 
-        quadIndices.append(currentEdge->twin->next->next->next->origin->index);
-        quadIndices.append(currentEdge->twin->origin->index);
-        quadIndices.append(currentEdge->next->next->origin->index);
-        quadIndices.append(currentEdge->next->next->twin->next->next->origin->index);
+        regularQuadIndices.append(currentEdge->twin->next->next->origin->index);
+        regularQuadIndices.append(currentEdge->origin->index);
+        regularQuadIndices.append(currentEdge->prev->origin->index);
+        regularQuadIndices.append(currentEdge->prev->prev->twin->prev->origin->index);
 
-        quadIndices.append(currentEdge->twin->prev->twin->next->next->origin->index);
-        quadIndices.append(currentEdge->twin->prev->twin->next->next->next->origin->index);
-        quadIndices.append(currentEdge->twin->prev->twin->next->next->next->twin->prev->origin->index);
-        quadIndices.append(currentEdge->twin->prev->twin->next->next->next->twin->prev->prev->twin->prev->origin->index);
+        regularQuadIndices.append(currentEdge->twin->next->twin->prev->origin->index);
+        regularQuadIndices.append(currentEdge->twin->next->twin->prev->prev->origin->index);
+        regularQuadIndices.append(currentEdge->prev->twin->next->next->origin->index);
+        regularQuadIndices.append(currentEdge->prev->twin->next->twin->prev->origin->index);
     }
   }
-  quadIndices.squeeze();
+  regularQuadIndices.squeeze();
 }
 
 /**

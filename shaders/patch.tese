@@ -1,5 +1,5 @@
 #version 410
-layout(quads, equal_spacing, cw) in;
+layout(quads, equal_spacing, ccw) in;
 
 layout(location = 0) in vec3[] vertcoords_tc;
 layout(location = 1) in vec3[] vertnormals_tc;
@@ -16,11 +16,11 @@ void main() {
   float v = gl_TessCoord.y;
 
   // Bilinear interpolation
-  vec3 pos = mix(mix(vertcoords_tc[5], vertcoords_tc[6], u),
-                 mix(vertcoords_tc[9], vertcoords_tc[10], u), v);
+  vec3 pos = mix(mix(vertcoords_tc[0], vertcoords_tc[1], u),
+                 mix(vertcoords_tc[3], vertcoords_tc[2], u), v);
 
-  vec3 normal = mix(mix(vertnormals_tc[5], vertnormals_tc[6], u),
-                  mix(vertnormals_tc[9], vertnormals_tc[10], u), v);
+  vec3 normal = mix(mix(vertnormals_tc[0], vertnormals_tc[1], u),
+                    mix(vertnormals_tc[3], vertnormals_tc[2], u), v);
 
   gl_Position = projectionmatrix * modelviewmatrix * vec4(pos, 1.0);
   vertcoords_te = vec3(modelviewmatrix * vec4(pos, 1.0));
