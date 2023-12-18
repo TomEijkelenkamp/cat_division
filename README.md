@@ -9,7 +9,7 @@ The limit stencil for a subdivision surface corresponds to the domi-
 nant left eigenvector of its subdivision matrix [Halstead et al. 1993].
 However, this stencil is only valid if the Catmull-Clark surface is
 composed solely of quads. We can generalize this stencil easily
-though. Let mi be the midpoint of the ith edge surrounding the
+though [Loop et al. 2009]. Let mi be the midpoint of the ith edge surrounding the
 vertex v on the control mesh and ci be the average of the vertices
 of the ith face according to Figure 5. The limit position is then
 
@@ -20,6 +20,7 @@ Halstead, M., Kass, M., & DeRose, T. (1993). Efficient, fair interpolation using
 
 <br />
 For boundary cases:<br />
+<br />
 <img src='./readme_images/boundary_limit.png' width='450'><br />
 <br />
 For regular quad vertex indices we used the following convention:<br />
