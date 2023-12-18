@@ -25,7 +25,7 @@ For boundary cases:<br />
 <img src='./readme_images/boundary_limit.png' width='450'><br />
 <br />
 
-# Regular quad B-spline rendering
+# Regular quad b-spline rendering
 For regular quad vertex indices we used the following convention:<br />
 <br />
 <img src='./readme_images/regular_quad_indices.png' width='300'><br />
