@@ -19,7 +19,8 @@ Loop, C., Schaefer, S., Ni, T., & Castaño, I. (2009). Approximating subdivision
 Halstead, M., Kass, M., & DeRose, T. (1993). Efficient, fair interpolation using catmull-clark surfaces. Computer Graphics -New York- Association for Computing Machinery-, 27(Spi), 35–35.<br />
 
 <br />
-For boundary cases the stencil [1 4 1] / 6 is used.<br />
+For boundary cases:<br />
+<img src='./readme_images/boundary_limit.png' width='450'><br />
 <br />
 For regular quad vertex indices we used the following convention:<br />
 <br />
