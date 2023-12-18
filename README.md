@@ -1,7 +1,7 @@
 <br />
-<img src='./readme_images/limit_calculation.png' width='300'><br />
+<img src='./readme_images/limit_calculation.png' width='450'><br />
 <br />
-For boundary cases the stencil [1 4 1] / 6 is used.
+For boundary cases the stencil [1 4 1] / 6 is used.<br />
 <br />
 For regular quad vertex indices we used the following convention:<br />
 <br />
