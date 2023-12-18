@@ -27,6 +27,7 @@ float B3(float u) {
   return u*u*u / 6;
 }
 
+
 void main() {
   float u = gl_TessCoord.x;
   float v = gl_TessCoord.y;
@@ -36,14 +37,12 @@ void main() {
            + vertcoords_tc[8] * B0(u)*B1(v) + vertcoords_tc[9] * B1(u)*B1(v) + vertcoords_tc[10] * B2(u)*B1(v) + vertcoords_tc[11] * B3(u)*B1(v)
            + vertcoords_tc[12] * B0(u)*B0(v) + vertcoords_tc[13] * B1(u)*B0(v) + vertcoords_tc[14] * B2(u)*B0(v) + vertcoords_tc[15] * B3(u)*B0(v);
 
-  // Bilinear interpolation
-//  vec3 pos = mix(mix(vertcoords_tc[9], vertcoords_tc[10], u),
-//                 mix(vertcoords_tc[13], vertcoords_tc[14], u), v);
-
-  vec3 normal = mix(mix(vertnormals_tc[5], vertnormals_tc[6], u),
-                  mix(vertnormals_tc[9], vertnormals_tc[10], u), v);
+  vec3 nor = vertnormals_tc[0] * B0(u)*B3(v) + vertnormals_tc[1] * B1(u)*B3(v) + vertnormals_tc[2] * B2(u)*B3(v) + vertnormals_tc[3] * B3(u)*B3(v)
+           + vertnormals_tc[4] * B0(u)*B2(v) + vertnormals_tc[5] * B1(u)*B2(v) + vertnormals_tc[6] * B2(u)*B2(v) + vertnormals_tc[7] * B3(u)*B2(v)
+           + vertnormals_tc[8] * B0(u)*B1(v) + vertnormals_tc[9] * B1(u)*B1(v) + vertnormals_tc[10] * B2(u)*B1(v) + vertnormals_tc[11] * B3(u)*B1(v)
+           + vertnormals_tc[12] * B0(u)*B0(v) + vertnormals_tc[13] * B1(u)*B0(v) + vertnormals_tc[14] * B2(u)*B0(v) + vertnormals_tc[15] * B3(u)*B0(v);
 
   gl_Position = projectionmatrix * modelviewmatrix * vec4(pos, 1.0);
   vertcoords_te = vec3(modelviewmatrix * vec4(pos, 1.0));
-  vertnormals_te = normalize(normalmatrix * normal);
+  vertnormals_te = normalize(normalmatrix * nor);
 }
