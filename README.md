@@ -15,8 +15,8 @@ of the ith face according to Figure 5. The limit position is then
 
 <img src='./readme_images/limit_formula.png' width='450'><br />
 
-Loop, C., Schaefer, S., Ni, T., & Castaño, I. (2009). Approximating subdivision surfaces with gregory patches for hardware tessellation. Acm Transactions on Graphics (Tog), 28(5), 1–9. https://doi.org/10.1145/1618452.1618497
-Halstead, M., Kass, M., & DeRose, T. (1993). Efficient, fair interpolation using catmull-clark surfaces. Computer Graphics -New York- Association for Computing Machinery-, 27(Spi), 35–35.
+Loop, C., Schaefer, S., Ni, T., & Castaño, I. (2009). Approximating subdivision surfaces with gregory patches for hardware tessellation. Acm Transactions on Graphics (Tog), 28(5), 1–9. https://doi.org/10.1145/1618452.1618497<br />
+Halstead, M., Kass, M., & DeRose, T. (1993). Efficient, fair interpolation using catmull-clark surfaces. Computer Graphics -New York- Association for Computing Machinery-, 27(Spi), 35–35.<br />
 
 <br />
 For boundary cases the stencil [1 4 1] / 6 is used.<br />
